@@ -11,11 +11,17 @@ public final class ScreenManager {
 	long lastUpdateFrame = 0;
 	
 	public void update() {
-		ArrayList<Screen> temp = (ArrayList<Screen>) this.screens.clone();
 		
-		for(Screen s : temp) {
+		if(this.screens.isEmpty()) {
+			Gdx.app.log("ScreenManager", "No screens, quiting!");
+			Gdx.app.exit();
+		}
+		
+		for (int i = this.screens.size() - 1; i > -1; i--) { 
+			Screen s = this.screens.get(i);
 			if(s.isExiting())
 			{
+				s.disposeContent();
 				this.screens.remove(s);
 			}
 		}
@@ -68,11 +74,19 @@ public final class ScreenManager {
 		}
 		
 		screen.setScreenManager(this);
+		screen.loadContent();
 		this.screens.add(screen);
 	}
 	
 	private void addScreenNonloading(Screen screen) {
 		this.screens.add(screen);
+	}
+	
+	public void dispose()
+	{
+		for(Screen s : this.screens) {
+			s.disposeContent();
+		}
 	}
 	
 	
@@ -107,6 +121,13 @@ public final class ScreenManager {
 
 		@Override
 		public void loadContent() {
+			
+		}
+
+
+		@Override
+		public void disposeContent() {
+			// TODO Auto-generated method stub
 			
 		}
 

@@ -16,6 +16,8 @@ public abstract class Screen {
 	
 	abstract public void loadContent();
 	
+	abstract public void disposeContent();
+	
 	public void exit() {
 		isExiting = true;
 		
