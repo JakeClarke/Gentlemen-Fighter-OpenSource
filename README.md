@@ -1,4 +1,4 @@
-Super Gentleman Fighter 4!
+Super Gentleman Fighter 4 HD Remix: Arcade Edition!
 
-Or something like that.
+Featuring never before seen levels of British including hats, canes, cream teas and scones.
 
