@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.me.mygdxgame.screens.ScreenManager;
 
 public class GentlemanFighterGame implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Texture texture;
 	private Sprite sprite;
+	private ScreenManager screenManager = null;
 	
 	@Override
 	public void create() {		
@@ -33,6 +35,8 @@ public class GentlemanFighterGame implements ApplicationListener {
 		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
 		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
 		sprite.setPosition(-sprite.getWidth()/2, -sprite.getHeight()/2);
+		
+		screenManager = new ScreenManager();
 	}
 
 	@Override
@@ -42,7 +46,10 @@ public class GentlemanFighterGame implements ApplicationListener {
 	}
 
 	@Override
-	public void render() {		
+	public void render() {
+		
+		screenManager.update();
+		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
@@ -50,6 +57,8 @@ public class GentlemanFighterGame implements ApplicationListener {
 		batch.begin();
 		sprite.draw(batch);
 		batch.end();
+		
+		this.screenManager.render();
 	}
 
 	@Override
