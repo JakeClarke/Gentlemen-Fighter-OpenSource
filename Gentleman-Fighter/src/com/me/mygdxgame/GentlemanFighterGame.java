@@ -3,6 +3,7 @@ package com.me.mygdxgame;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.me.mygdxgame.gameplay.GameplayScreen;
 import com.me.mygdxgame.screens.GDXLogoScreen;
 import com.me.mygdxgame.screens.ScreenManager;
 
@@ -14,6 +15,7 @@ public class GentlemanFighterGame implements ApplicationListener {
 	public void create() {		
 		this.screenManager = new ScreenManager();
 		
+		this.screenManager.addScreen(new GameplayScreen());
 		this.screenManager.addScreen(new GDXLogoScreen());
 	}
 

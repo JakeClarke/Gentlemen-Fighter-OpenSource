@@ -46,6 +46,7 @@ public final class ScreenManager {
 			isTop = isTop ? s.isPopup() : false;
 		}
 		
+		Gdx.app.log("Screens", "Num: "+ this.screens.size());
 		Gdx.app.log("Time", "Delta: " + delta + " ms:" + milis);
 		
 		lastUpdateFrame = TimeUtils.nanoTime();

@@ -14,10 +14,17 @@ public final class GDXLogoScreen extends Screen {
 	private SpriteBatch batch;
 	private Texture texture;
 	private Sprite sprite;
+	
+	private static final float SHOW_TIME = 2000f;
+	private float timeOnScreen = 0f;
 
 	@Override
 	public void update(boolean isTop, float elapsedGameTime) {
-
+		if(timeOnScreen > SHOW_TIME) {
+			this.exit();
+		}
+		
+		timeOnScreen += elapsedGameTime;
 	}
 
 	@Override
