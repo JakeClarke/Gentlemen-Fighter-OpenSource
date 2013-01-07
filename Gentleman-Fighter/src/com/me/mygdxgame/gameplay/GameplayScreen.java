@@ -1,12 +1,14 @@
 package com.me.mygdxgame.gameplay;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.me.mygdxgame.controller.Controllers;
+import com.me.mygdxgame.gameplay.entities.EntityManager;
+import com.me.mygdxgame.gameplay.entities.PlayerEntity;
 import com.me.mygdxgame.graphics.AnimatedSprite;
 import com.me.mygdxgame.graphics.Frame;
 import com.me.mygdxgame.screens.Screen;
@@ -18,6 +20,7 @@ public class GameplayScreen extends Screen {
 	private SpriteBatch sb;
 	private World world;
 	private TextureRegion bgtr;
+	private EntityManager entityManager;
 
 	@Override
 	public void update(boolean isTop, float elapsedGameTime) {
@@ -28,6 +31,8 @@ public class GameplayScreen extends Screen {
 		
 		sprite.update(elapsedGameTime);
 		
+		this.entityManager.updateEntities(elapsedGameTime);
+		
 	}
 
 	@Override
@@ -36,6 +41,8 @@ public class GameplayScreen extends Screen {
 		sb.draw(bgtr, 0, 0);
 		
 		sprite.render();
+		
+		this.entityManager.renderEntities();
 		
 		sb.end();
 	}
@@ -46,9 +53,12 @@ public class GameplayScreen extends Screen {
 		
 		this.sb = new SpriteBatch();
 		
+		this.entityManager = new EntityManager(this);
+		
+		this.entityManager.addEntity(new PlayerEntity(1000f, 1000f, Controllers.getActiveControllers().get(0),this.entityManager));
+		
 		this.sprite = new AnimatedSprite();
 		this.sprite.Batch = this.sb;
-		//this.sprite.Tint = Color.RED;
 		
 		this.sprite.Height = 100f;
 		this.sprite.Width = 100f;
@@ -63,8 +73,6 @@ public class GameplayScreen extends Screen {
 		}
 		
 		
-		this.sprite.Frames.add(f);
-		
 		bgtr = new TextureRegion(new Texture(Gdx.files.internal(Constants.Files.Graphics.BACKGROUNDS + "library.png")),1280,720);
 		
 		
@@ -77,6 +85,10 @@ public class GameplayScreen extends Screen {
 	
 	public World getWorld() {
 		return this.world;
+	}
+	
+	public SpriteBatch getMidSpriteBatch() {
+		return this.sb;
 	}
 
 }

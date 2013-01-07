@@ -3,10 +3,7 @@ package com.me.mygdxgame.controller;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.esotericsoftware.controller.device.Axis;
-import com.esotericsoftware.controller.device.Button;
 import com.esotericsoftware.controller.input.XboxController;
-import com.esotericsoftware.controller.input.XboxController.Listener;
 
 public class Controllers {
 	private static ArrayList<XboxController> allControllers = null;

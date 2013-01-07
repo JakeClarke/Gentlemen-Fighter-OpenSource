@@ -1,51 +1,44 @@
 package com.me.mygdxgame.gameplay.entities;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.me.mygdxgame.Constants;
+
 public abstract class Entity {
+	
+	protected Body body;
+	
+	private EntityManager manager;
 
-	protected float x;
-	protected float y;
-	protected float width;
-	protected float height;
-
-	public Entity(float x, float y, float width, float height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public Entity(BodyDef bodyDef, FixtureDef fixtureDef, EntityManager parentManager) {
+		this.manager = parentManager;
+		
+		this.body = this.manager.getGameplayScreen().getWorld().createBody(bodyDef);
+		this.body.setUserData(this);
+		this.body.createFixture(fixtureDef);
 	}
 
-	public abstract void update();
+	public abstract void update(float elapsedMS);
+	
+	public abstract void render();
 
-	public float getX() {
-		return x;
+	public Vector2 getPosition() {
+		return this.body.getPosition().mul(Constants.BOX_TO_WORLD);
 	}
-
-	public void setX(int x) {
-		this.x = x;
+	
+	public void setPosition(Vector2 pos) {
+		this.body.getPosition().set(pos.mul(Constants.WORLD_TO_BOX));
 	}
-
-	public float getY() {
-		return y;
+	
+	
+	public Body getBody() {
+		return this.body;
 	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public float getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public float getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
+	
+	public EntityManager getManager() {
+		return this.manager;
 	}
 
 }

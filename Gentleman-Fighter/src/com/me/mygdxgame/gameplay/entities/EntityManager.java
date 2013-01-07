@@ -2,7 +2,15 @@ package com.me.mygdxgame.gameplay.entities;
 
 import java.util.ArrayList;
 
+import com.me.mygdxgame.gameplay.GameplayScreen;
+
 public final class EntityManager {
+	
+	private GameplayScreen gamePlayScreen;
+	
+	public EntityManager(GameplayScreen gamePlayScreen) {
+		this.gamePlayScreen = gamePlayScreen;
+	}
 
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -18,9 +26,19 @@ public final class EntityManager {
 		entities.remove(entity);
 	}
 
-	public void updateEntities() {
+	public void updateEntities(float elapsedMS) {
 		for (Entity entity : entities) {
-			entity.update();
+			entity.update(elapsedMS);
 		}
+	}
+	
+	public void renderEntities() {
+		for (Entity entity : entities) {
+			entity.render();
+		}
+	}
+	
+	public GameplayScreen getGameplayScreen() {
+		return this.gamePlayScreen;
 	}
 }
