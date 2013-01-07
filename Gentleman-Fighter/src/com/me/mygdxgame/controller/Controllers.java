@@ -14,44 +14,28 @@ public class Controllers {
 	
 	static public ArrayList<XboxController> getAllControllers(){
 		if (allControllers==null){
-			allControllers = (ArrayList<XboxController>) XboxController.getAll();
+			poll();
 		}
-		
-		for (final XboxController controller : allControllers){
-			if (controller.poll()) activeControllers.add(controller);
-			
-			controller.addListener(new Listener(){
-				@Override
-				public void connected () {
-					Gdx.app.log("controller", "controller connected, port="+controller.getPort() + ", #now connected="+activeControllers.size());
-					activeControllers.add(controller);
-				}
-				
-				@Override
-				public void disconnected () {
-					Gdx.app.log("controller", "controller disconnected, port="+controller.getPort() + ", #now connected="+activeControllers.size());
-					activeControllers.remove(controller);
-				}
-				
-				@Override
-				public void buttonChanged (Button button, boolean pressed) {
-					Gdx.app.log("controller", "buttonChanged, port="+controller.getPort() + ", button="+button.name()+", state="+pressed);
-				}
-
-				@Override
-				public void axisChanged (Axis axis, float state) {
-					Gdx.app.log("controller", "axisChanged, port="+controller.getPort() + ", axis="+axis.name()+", state="+state);
-				}
-			});
-		}
-		Gdx.app.log("controller", "getAllControllers(), allControllers size="+allControllers.size()+", activeControllers.size="+activeControllers.size());
 		return allControllers;
 	}
 	
 	static public ArrayList<XboxController> getActiveControllers(){
-		if (allControllers==null)
-			getAllControllers();
-		Gdx.app.log("controller", "getActiveControllers(), size="+activeControllers.size());
+		if (allControllers==null){
+			poll();
+		}
+		
 		return activeControllers;
+	}
+	
+	static public void poll() {
+		activeControllers.clear();
+		allControllers = (ArrayList<XboxController>) XboxController.getAll();
+		for(XboxController c : allControllers) {
+			if(c.poll())
+				activeControllers.add(c);
+			
+		}
+		
+		Gdx.app.log("controllers", "total controllers: " + allControllers.size() + ", Active: " + activeControllers.size());
 	}
 }

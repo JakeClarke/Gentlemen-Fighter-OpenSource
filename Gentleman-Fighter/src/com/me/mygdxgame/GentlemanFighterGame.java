@@ -3,6 +3,8 @@ package com.me.mygdxgame;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.esotericsoftware.controller.device.Button;
+import com.me.mygdxgame.controller.Controllers;
 import com.me.mygdxgame.gameplay.GameplayScreen;
 import com.me.mygdxgame.screens.GDXLogoScreen;
 import com.me.mygdxgame.screens.ScreenManager;
@@ -26,6 +28,11 @@ public class GentlemanFighterGame implements ApplicationListener {
 
 	@Override
 	public void render() {
+		Controllers.poll();
+		if(Controllers.getActiveControllers().size() > 0 && Controllers.getActiveControllers().get(0).get(Button.a)) {
+			Gdx.app.log("Controller 1", "A pressed.");
+		}
+		
 		this.screenManager.update();
 		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
