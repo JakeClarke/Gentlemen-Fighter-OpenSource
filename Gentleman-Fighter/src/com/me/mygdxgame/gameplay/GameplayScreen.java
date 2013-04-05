@@ -1,12 +1,12 @@
 package com.me.mygdxgame.gameplay;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.me.mygdxgame.controller.Controllers;
 import com.me.mygdxgame.gameplay.entities.EntityManager;
 import com.me.mygdxgame.gameplay.entities.PlayerEntity;
 import com.me.mygdxgame.graphics.AnimatedSprite;
@@ -55,7 +55,7 @@ public class GameplayScreen extends Screen {
 		
 		this.entityManager = new EntityManager(this);
 		
-		this.entityManager.addEntity(new PlayerEntity(1000f, 1000f, Controllers.getActiveControllers().get(0),this.entityManager));
+		this.entityManager.addEntity(new PlayerEntity(1000f, 1000f, Controllers.getControllers().get(0),this.entityManager));
 		
 		this.sprite = new AnimatedSprite();
 		this.sprite.Batch = this.sb;
