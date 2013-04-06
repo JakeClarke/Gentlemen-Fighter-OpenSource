@@ -8,15 +8,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.me.mygdxgame.gameplay.entities.EntityManager;
+import com.me.mygdxgame.gameplay.entities.PlatformEntity;
 import com.me.mygdxgame.gameplay.entities.PlayerEntity;
-import com.me.mygdxgame.graphics.AnimatedSprite;
 import com.me.mygdxgame.graphics.Frame;
 import com.me.mygdxgame.screens.Screen;
 import com.me.mygdxgame.Constants;
 
 public class GameplayScreen extends Screen {
 	
-	private AnimatedSprite sprite;
 	private SpriteBatch sb;
 	private World world;
 	private TextureRegion bgtr;
@@ -28,8 +27,7 @@ public class GameplayScreen extends Screen {
 			return;
 		
 		this.world.step(elapsedGameTime * 0.001f, 6, 2);
-		
-		sprite.update(elapsedGameTime);
+		Gdx.app.log("Physics", "Number of bodies: " + this.world.getBodyCount() + ", Step: " + elapsedGameTime * 0.001f + "(s)");
 		
 		this.entityManager.updateEntities(elapsedGameTime);
 		
@@ -39,8 +37,6 @@ public class GameplayScreen extends Screen {
 	public void render() {
 		sb.begin();
 		sb.draw(bgtr, 0, 0);
-		
-		sprite.render();
 		
 		this.entityManager.renderEntities();
 		
@@ -55,25 +51,31 @@ public class GameplayScreen extends Screen {
 		
 		this.entityManager = new EntityManager(this);
 		
-		this.entityManager.addEntity(new PlayerEntity(1000f, 1000f, Controllers.getControllers().get(0),this.entityManager));
+		this.entityManager.addEntity(new PlayerEntity(100f, 500f, Controllers.getControllers().get(0),this.entityManager));
+		Texture bgt = new Texture(Gdx.files.internal(Constants.Files.Graphics.BACKGROUNDS + "library.png"));
 		
-		this.sprite = new AnimatedSprite();
-		this.sprite.Batch = this.sb;
+		PlatformEntity platform = null;
+		Frame[] fa = new Frame[1];
+		fa[0] = new Frame();
+		TextureRegion tr = new TextureRegion(bgt, 0, 730, 326, 30);
+		fa[0].Region = tr;
 		
-		this.sprite.Height = 100f;
-		this.sprite.Width = 100f;
-		
-		Frame f = null;
-		
-		TextureRegion[] tr = TextureRegion.split(new Texture(Gdx.files.internal("data/graphics/sprite sheets/characters/fat dude.png")), 32, 32)[0];
-		for(TextureRegion r : tr) {
-			f = new Frame();
-			f.Region = r;
-			this.sprite.Frames.add(f);
+		for(int i = 0; i < 5; i++) {
+			platform = new PlatformEntity(0, 400 * i, 300, 30, fa, this.entityManager);
+			this.entityManager.addEntity(platform);
 		}
 		
+		fa = new Frame[1];
+		fa[0] = new Frame();
+		tr = new TextureRegion(bgt, 1280, 0, 264, 606);
+		fa[0].Region = tr;
 		
-		bgtr = new TextureRegion(new Texture(Gdx.files.internal(Constants.Files.Graphics.BACKGROUNDS + "library.png")),1280,720);
+		platform = new PlatformEntity(490, 0, 264, 606, fa, this.entityManager);
+		this.entityManager.addEntity(platform);
+		
+		
+		
+		bgtr = new TextureRegion(bgt,1280,720);
 		
 		
 	}

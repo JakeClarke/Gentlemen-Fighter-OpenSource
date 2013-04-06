@@ -48,11 +48,12 @@ public class PlayerEntity extends Entity {
 
 	@Override
 	public void update(float elapsedMS) {
-		Vector2 vel = new Vector2(this.controller.getAxis(Ouya.AXIS_LEFT_X) * Constants.STICK_SCALER, 0);
+		Vector2 vel = new Vector2(this.controller.getAxis(Ouya.AXIS_LEFT_Y) * Constants.STICK_SCALER, 0).mul(Constants.WORLD_TO_BOX);
+		//Vector2 vel = new Vector2(1000f, 1000f).mul(Constants.WORLD_TO_BOX);
 		this.body.applyForceToCenter(vel);
 		
 		// TODO: Do something else if the player is in the air. 
-		Vector2 curVol = this.body.getLinearVelocity().mul(Constants.WORLD_TO_BOX);
+		Vector2 curVol = this.body.getLinearVelocity().mul(Constants.BOX_TO_WORLD);
 		
 		if(curVol.x > 0) {
 			facingForward = true;
@@ -66,10 +67,12 @@ public class PlayerEntity extends Entity {
 		
 		Vector2 pos = this.getPosition();
 		
-		this.walkingSprite.X = pos.x;
-		this.walkingSprite.Y = pos.y;
+		this.walkingSprite.X = pos.x - (WIDTH / 2);
+		this.walkingSprite.Y = pos.y - (HEIGHT / 2);
 		
 		this.walkingSprite.update(elapsedMS * curVol.x);
+		
+		Gdx.app.log("Player", "Box pos: " + this.body.getPosition() + ", world pos:" + this.getPosition() + ", Velocity: " + curVol);
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class PlayerEntity extends Entity {
 		// could be cached.
 		FixtureDef fixDef = new FixtureDef();
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(WIDTH * Constants.WORLD_TO_BOX, HEIGHT * Constants.WORLD_TO_BOX);
+		shape.setAsBox((WIDTH / 2) * Constants.WORLD_TO_BOX, (HEIGHT / 2) * Constants.WORLD_TO_BOX);
 		fixDef.shape = shape;
 		fixDef.density = 0.5f; 
 		fixDef.friction = 0.4f;
@@ -96,7 +99,7 @@ public class PlayerEntity extends Entity {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.fixedRotation = true;
 		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(new Vector2(posX, posY).mul(Constants.WORLD_TO_BOX));
+		bodyDef.position.set(new Vector2(posX + (WIDTH / 2), posY + (HEIGHT / 2)).mul(Constants.WORLD_TO_BOX));
 		
 		return bodyDef;
 	}
