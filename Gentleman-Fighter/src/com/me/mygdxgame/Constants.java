@@ -17,7 +17,16 @@ public final class Constants {
 			public static final String ROOT = Files.ROOT + "graphics/";
 			
 			public static final String BACKGROUNDS = ROOT + "backgrounds/";
+			
+			public static final String PLAYER = Graphics.ROOT + "sprite sheets/characters/";
 		}
+	}
+	
+	public final class PlayerClasses {
+		
+		public static final String FAT_DUDE = "fat dude"; 
+		
+		public static final String SKINNY_DUDE = "skinny dude";
 	}
 
 }

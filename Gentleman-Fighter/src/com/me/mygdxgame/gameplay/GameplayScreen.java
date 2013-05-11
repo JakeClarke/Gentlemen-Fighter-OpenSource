@@ -51,7 +51,14 @@ public class GameplayScreen extends Screen {
 		
 		this.entityManager = new EntityManager(this);
 		
-		this.entityManager.addEntity(new PlayerEntity(100f, 500f, Controllers.getControllers().get(0),this.entityManager));
+		switch (Controllers.getControllers().size) {
+		case 2:
+			this.entityManager.addEntity(new PlayerEntity(100f, 700f, Constants.PlayerClasses.SKINNY_DUDE, Controllers.getControllers().get(1),this.entityManager));
+		case 1:
+			this.entityManager.addEntity(new PlayerEntity(100f, 500f, Constants.PlayerClasses.FAT_DUDE, Controllers.getControllers().get(0),this.entityManager));
+			break;
+		}
+		
 		Texture bgt = new Texture(Gdx.files.internal(Constants.Files.Graphics.BACKGROUNDS + "library.png"));
 		
 		PlatformEntity platform = null;

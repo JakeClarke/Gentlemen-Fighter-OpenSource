@@ -20,9 +20,11 @@ public class PlayerEntity extends Entity {
 	private static final float HEIGHT = 100f, WIDTH = 100f;
 	private AnimatedSprite walkingSprite = new AnimatedSprite();
 	private boolean facingForward = true;
+	public final String playerSpriteName;
 
-	public PlayerEntity(float x, float y, Controller controller, EntityManager parentManager) {
+	public PlayerEntity(float x, float y, final String playerSpriteName, final Controller controller, EntityManager parentManager) {
 		super(genPlayerBodyDef(x,y), genFixtureDef(), parentManager);
+		this.playerSpriteName = playerSpriteName;
 		this.controller = controller;
 		
 		// sprite setup.
@@ -34,7 +36,7 @@ public class PlayerEntity extends Entity {
 		
 		Frame f = null;
 		
-		TextureRegion[] tr = TextureRegion.split(new Texture(Gdx.files.internal("data/graphics/sprite sheets/characters/fat dude.png")), 32, 32)[0];
+		TextureRegion[] tr = TextureRegion.split(new Texture(Gdx.files.internal(Constants.Files.Graphics.PLAYER + this.playerSpriteName + ".png")), 32, 32)[0];
 		for(TextureRegion r : tr) {
 			f = new Frame();
 			f.Region = r;
@@ -65,14 +67,16 @@ public class PlayerEntity extends Entity {
 			this.walkingSprite.CurrentFrameNum = 0;
 		}
 		
+		this.walkingSprite.flippedFlags = (this.facingForward) ? AnimatedSprite.FLIPPED_NONE : AnimatedSprite.FLIPPED_HORIZONTAL;
+		
 		Vector2 pos = this.getPosition();
 		
 		this.walkingSprite.X = pos.x - (WIDTH / 2);
 		this.walkingSprite.Y = pos.y - (HEIGHT / 2);
 		
-		this.walkingSprite.update(elapsedMS * curVol.x);
+		this.walkingSprite.update(Math.abs(elapsedMS * curVol.x) * 0.05f);
 		
-		Gdx.app.log("Player", "Box pos: " + this.body.getPosition() + ", world pos:" + this.getPosition() + ", Velocity: " + curVol);
+		Gdx.app.log("Player", this.playerSpriteName + ", Box pos: " + this.body.getPosition() + ", world pos:" + this.getPosition() + ", Velocity: " + curVol);
 	}
 
 	@Override
