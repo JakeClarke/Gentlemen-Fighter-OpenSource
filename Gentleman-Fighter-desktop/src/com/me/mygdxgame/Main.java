@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Gentleman-Fighter";
 		cfg.useGL20 = false;
-		cfg.width = 1280;
-		cfg.height = 720;
+		cfg.width = GentlemanFighterGame.TARGET_WIDTH;
+		cfg.height = GentlemanFighterGame.TARGET_HEIGHT;
 		
 		new LwjglApplication(new GentlemanFighterGame(), cfg);
 	}

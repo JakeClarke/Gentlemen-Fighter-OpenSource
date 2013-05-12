@@ -8,6 +8,8 @@ import com.me.mygdxgame.screens.GDXLogoScreen;
 import com.me.mygdxgame.screens.ScreenManager;
 
 public class GentlemanFighterGame implements ApplicationListener {
+	
+	public static final int TARGET_WIDTH = 1280, TARGET_HEIGHT = 720;
 
 	private ScreenManager screenManager = null;
 	
