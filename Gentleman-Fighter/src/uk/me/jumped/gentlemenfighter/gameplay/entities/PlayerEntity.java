@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 public class PlayerEntity extends Entity {
 
 	private Controller controller;
-	private static final float HEIGHT = 100f, WIDTH = 100f;
+	private static final float HEIGHT = 100f, WIDTH = 100f, FACINGCHANGE_DEADZONE = 0.1f;
 	private AnimatedSprite walkingSprite = new AnimatedSprite();
 	private boolean facingForward = true;
 	public final String playerSpriteName;
@@ -58,13 +58,13 @@ public class PlayerEntity extends Entity {
 		// TODO: Do something else if the player is in the air. 
 		Vector2 curVol = this.body.getLinearVelocity().mul(Constants.BOX_TO_WORLD);
 		
-		if(curVol.x > 0) {
+		if(curVol.x > FACINGCHANGE_DEADZONE) {
 			facingForward = true;
 		}
-		else if(curVol.x < 0) {
+		else if(curVol.x < -FACINGCHANGE_DEADZONE) {
 			facingForward = false;
 		}
-		else if(curVol.x == 0) {
+		else { // velocity deadzone.
 			this.walkingSprite.CurrentFrameNum = 0;
 		}
 		
@@ -90,9 +90,10 @@ public class PlayerEntity extends Entity {
 		// could be cached.
 		FixtureDef fixDef = new FixtureDef();
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox((WIDTH / 2) * Constants.WORLD_TO_BOX, (HEIGHT / 2) * Constants.WORLD_TO_BOX);
+		// the box is slightly smaller to get the edges closer to the character sprite.
+		shape.setAsBox(((WIDTH - 60) / 2) * Constants.WORLD_TO_BOX, (HEIGHT / 2) * Constants.WORLD_TO_BOX);
 		fixDef.shape = shape;
-		fixDef.density = 0.5f; 
+		fixDef.density = 0.9f; 
 		fixDef.friction = 0.4f;
 		fixDef.restitution = 0f;
 		
