@@ -1,4 +1,4 @@
-package com.me.mygdxgame.screens;
+package uk.me.jumped.gentlemenfighter.screens;
 
 public abstract class Screen {
 	

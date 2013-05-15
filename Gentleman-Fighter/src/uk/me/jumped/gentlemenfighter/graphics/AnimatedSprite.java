@@ -1,4 +1,4 @@
-package com.me.mygdxgame.graphics;
+package uk.me.jumped.gentlemenfighter.graphics;
 
 import java.util.ArrayList;
 

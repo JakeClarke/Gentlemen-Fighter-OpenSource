@@ -1,5 +1,6 @@
-package com.me.mygdxgame;
+package uk.me.jumped.gentlemenfighter;
 
+import uk.me.jumped.gentlemenfighter.GentlemanFighterGame;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;

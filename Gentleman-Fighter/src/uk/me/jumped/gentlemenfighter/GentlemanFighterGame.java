@@ -1,11 +1,12 @@
-package com.me.mygdxgame;
+package uk.me.jumped.gentlemenfighter;
+
+import uk.me.jumped.gentlemenfighter.gameplay.GameplayScreen;
+import uk.me.jumped.gentlemenfighter.screens.GDXLogoScreen;
+import uk.me.jumped.gentlemenfighter.screens.ScreenManager;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
-import com.me.mygdxgame.gameplay.GameplayScreen;
-import com.me.mygdxgame.screens.GDXLogoScreen;
-import com.me.mygdxgame.screens.ScreenManager;
 
 public class GentlemanFighterGame implements ApplicationListener {
 	

@@ -1,4 +1,6 @@
-package com.me.mygdxgame;
+package uk.me.jumped.gentlemenfighter;
+
+import uk.me.jumped.gentlemenfighter.GentlemanFighterGame;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;

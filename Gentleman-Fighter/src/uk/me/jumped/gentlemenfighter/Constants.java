@@ -1,4 +1,4 @@
-package com.me.mygdxgame;
+package uk.me.jumped.gentlemenfighter;
 
 public final class Constants {
 	

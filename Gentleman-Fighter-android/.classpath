@@ -10,5 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="/Gentleman-Fighter/libs/gdx.jar" sourcepath="/Gentleman-Fighter/libs/gdx-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx-controllers-android.jar" sourcepath="libs/gdx-controllers-android-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Gentleman-Fighter/libs/gdx-controllers.jar" sourcepath="/Gentleman-Fighter/libs/gdx-controllers-sources.jar"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -1,4 +1,11 @@
-package com.me.mygdxgame.gameplay;
+package uk.me.jumped.gentlemenfighter.gameplay;
+
+import uk.me.jumped.gentlemenfighter.Constants;
+import uk.me.jumped.gentlemenfighter.gameplay.entities.EntityManager;
+import uk.me.jumped.gentlemenfighter.gameplay.entities.PlatformEntity;
+import uk.me.jumped.gentlemenfighter.gameplay.entities.PlayerEntity;
+import uk.me.jumped.gentlemenfighter.graphics.Frame;
+import uk.me.jumped.gentlemenfighter.screens.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
@@ -7,12 +14,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.me.mygdxgame.gameplay.entities.EntityManager;
-import com.me.mygdxgame.gameplay.entities.PlatformEntity;
-import com.me.mygdxgame.gameplay.entities.PlayerEntity;
-import com.me.mygdxgame.graphics.Frame;
-import com.me.mygdxgame.screens.Screen;
-import com.me.mygdxgame.Constants;
 
 public class GameplayScreen extends Screen {
 	

@@ -1,4 +1,4 @@
-package com.me.mygdxgame.screens;
+package uk.me.jumped.gentlemenfighter.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;

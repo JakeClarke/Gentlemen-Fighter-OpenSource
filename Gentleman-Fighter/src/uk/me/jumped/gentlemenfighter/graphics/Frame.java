@@ -1,4 +1,4 @@
-package com.me.mygdxgame.graphics;
+package uk.me.jumped.gentlemenfighter.graphics;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 

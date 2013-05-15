@@ -1,8 +1,9 @@
-package com.me.mygdxgame.gameplay.entities;
+package uk.me.jumped.gentlemenfighter.gameplay.entities;
 
 import java.util.ArrayList;
 
-import com.me.mygdxgame.gameplay.GameplayScreen;
+import uk.me.jumped.gentlemenfighter.gameplay.GameplayScreen;
+
 
 public final class EntityManager {
 	

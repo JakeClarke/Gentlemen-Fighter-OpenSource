@@ -1,15 +1,16 @@
-package com.me.mygdxgame.gameplay.entities;
+package uk.me.jumped.gentlemenfighter.gameplay.entities;
 
 import java.util.Arrays;
+
+import uk.me.jumped.gentlemenfighter.Constants;
+import uk.me.jumped.gentlemenfighter.graphics.AnimatedSprite;
+import uk.me.jumped.gentlemenfighter.graphics.Frame;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.me.mygdxgame.Constants;
-import com.me.mygdxgame.graphics.AnimatedSprite;
-import com.me.mygdxgame.graphics.Frame;
 
 public class PlatformEntity extends Entity {
 	
