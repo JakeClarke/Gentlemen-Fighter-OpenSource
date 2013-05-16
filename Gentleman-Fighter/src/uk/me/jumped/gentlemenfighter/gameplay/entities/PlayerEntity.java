@@ -23,9 +23,9 @@ public class PlayerEntity extends Entity {
 
 	private AbstractController controller;
 	private static final float HEIGHT = 100f, WIDTH = 100f, FACINGCHANGE_DEADZONE = 0.1f;
-	private static final float JUMP_FORCE = 10000f * Constants.WORLD_TO_BOX;
+	private static final float JUMP_FORCE = 30000f * Constants.WORLD_TO_BOX;
 	private static final float GROUNDED_STICK_SCALER = 1000f;
-	private static final float AIR_STICK_SCALER = 500f;
+	private static final float AIR_STICK_SCALER = 300f;
 	private AnimatedSprite walkingSprite = new AnimatedSprite();
 	private boolean facingForward = true;
 	public final String playerSpriteName;

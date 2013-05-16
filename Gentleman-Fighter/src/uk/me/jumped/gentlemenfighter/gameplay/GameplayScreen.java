@@ -38,7 +38,7 @@ public class GameplayScreen extends Screen {
 			Gdx.app.log("CONTACTS-BEGIN", "A " + contact.getFixtureA().getBody().getUserData().toString() + ",B " + contact.getFixtureB().getBody().getUserData().toString());
 			Gdx.app.log("CONTACTS-BEGIN", contact.getWorldManifold().getNormal().toString());
 			if(contact.getFixtureA().getBody().getUserData() instanceof PlayerEntity && contact.getFixtureB().getBody().getUserData() instanceof PlatformEntity) {
-				if(contact.getWorldManifold().getNormal().y > 0.5f) {
+				if(Math.abs(contact.getWorldManifold().getNormal().y) > 0.5f) {
 					((PlayerEntity)contact.getFixtureA().getBody().getUserData()).grounded = true;
 				}
 			}
@@ -51,7 +51,7 @@ public class GameplayScreen extends Screen {
 			Gdx.app.log("CONTACTS-END", "A " + contact.getFixtureA().getBody().getUserData().toString() + ",B " + contact.getFixtureB().getBody().getUserData().toString());
 			Gdx.app.log("CONTACTS-END", contact.getWorldManifold().getNormal().toString());
 			if(contact.getFixtureA().getBody().getUserData() instanceof PlayerEntity && contact.getFixtureB().getBody().getUserData() instanceof PlatformEntity) {
-				if(contact.getWorldManifold().getNormal().y > 0.5f) {
+				if(Math.abs(contact.getWorldManifold().getNormal().y) > 0.5f) {
 					((PlayerEntity)contact.getFixtureA().getBody().getUserData()).grounded = false;
 				}
 			}
