@@ -13,13 +13,14 @@ public class KeyboardController extends AbstractController {
 	@Override
 	public float getHorizonatalMove() {
 		float res = 0f;
-		if(Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT)) {
+		if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT)) {
 			res -= 1f;
 		}
-		if(Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		if (Gdx.input.isKeyPressed(Keys.D)
+				|| Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			res += 1f;
 		}
-		
+
 		return res;
 	}
 

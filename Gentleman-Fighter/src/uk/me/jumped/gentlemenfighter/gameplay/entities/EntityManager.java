@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import uk.me.jumped.gentlemenfighter.gameplay.GameplayScreen;
 
-
 public final class EntityManager {
-	
+
 	private GameplayScreen gamePlayScreen;
-	
+
 	public EntityManager(GameplayScreen gamePlayScreen) {
 		this.gamePlayScreen = gamePlayScreen;
 	}
@@ -29,18 +28,18 @@ public final class EntityManager {
 
 	public void updateEntities(float elapsedMS) {
 		for (Entity entity : entities) {
-			if(entity.isActive())
+			if (entity.isActive())
 				entity.update(elapsedMS);
 		}
 	}
-	
+
 	public void renderEntities() {
 		for (Entity entity : entities) {
-			if(entity.isActive())
+			if (entity.isActive())
 				entity.render();
 		}
 	}
-	
+
 	public GameplayScreen getGameplayScreen() {
 		return this.gamePlayScreen;
 	}

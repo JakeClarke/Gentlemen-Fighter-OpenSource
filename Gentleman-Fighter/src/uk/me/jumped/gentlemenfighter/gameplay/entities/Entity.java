@@ -8,47 +8,47 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public abstract class Entity {
-	
+
 	protected Body body;
-	
+
 	private EntityManager manager;
-	
+
 	private boolean isActive = true;
 
-	public Entity(BodyDef bodyDef, FixtureDef fixtureDef, EntityManager parentManager) {
+	public Entity(BodyDef bodyDef, FixtureDef fixtureDef,
+			EntityManager parentManager) {
 		this.manager = parentManager;
-		
-		this.body = this.manager.getGameplayScreen().getWorld().createBody(bodyDef);
+
+		this.body = this.manager.getGameplayScreen().getWorld()
+				.createBody(bodyDef);
 		this.body.setUserData(this);
 		this.body.createFixture(fixtureDef);
 	}
 
 	public abstract void update(float elapsedMS);
-	
+
 	public abstract void render();
 
 	public Vector2 getPosition() {
 		return this.body.getPosition().mul(Constants.BOX_TO_WORLD);
 	}
-	
+
 	public void setPosition(Vector2 pos) {
 		this.body.getPosition().set(pos.mul(Constants.WORLD_TO_BOX));
 	}
-	
-	
+
 	public Body getBody() {
 		return this.body;
 	}
-	
+
 	public EntityManager getManager() {
 		return this.manager;
 	}
-	
-	public boolean isActive()
-	{
+
+	public boolean isActive() {
 		return this.isActive;
 	}
-	
+
 	public void setActive(boolean isActive) {
 		this.body.setActive(isActive);
 		this.isActive = isActive;

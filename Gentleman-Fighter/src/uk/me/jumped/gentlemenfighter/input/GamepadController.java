@@ -4,16 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.mappings.Ouya;
 
-
 public class GamepadController extends AbstractController {
-	
+
 	public static final int XBOX_A = 0;
 	public static final int XBOX_B = 1;
 	public static final int XBOX_X = 2;
 	public static final int XBOX_Y = 3;
-	
+
 	final Controller controller;
-	
+
 	public GamepadController(Controller controller) {
 		this.controller = controller;
 	}
