@@ -29,13 +29,15 @@ public final class EntityManager {
 
 	public void updateEntities(float elapsedMS) {
 		for (Entity entity : entities) {
-			entity.update(elapsedMS);
+			if(entity.isActive())
+				entity.update(elapsedMS);
 		}
 	}
 	
 	public void renderEntities() {
 		for (Entity entity : entities) {
-			entity.render();
+			if(entity.isActive())
+				entity.render();
 		}
 	}
 	

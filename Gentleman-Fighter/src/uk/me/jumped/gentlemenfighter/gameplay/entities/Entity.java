@@ -12,6 +12,8 @@ public abstract class Entity {
 	protected Body body;
 	
 	private EntityManager manager;
+	
+	private boolean isActive = true;
 
 	public Entity(BodyDef bodyDef, FixtureDef fixtureDef, EntityManager parentManager) {
 		this.manager = parentManager;
@@ -41,5 +43,14 @@ public abstract class Entity {
 	public EntityManager getManager() {
 		return this.manager;
 	}
-
+	
+	public boolean isActive()
+	{
+		return this.isActive;
+	}
+	
+	public void setActive(boolean isActive) {
+		this.body.setActive(isActive);
+		this.isActive = isActive;
+	}
 }
