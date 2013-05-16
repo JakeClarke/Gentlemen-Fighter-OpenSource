@@ -6,8 +6,6 @@ public final class Constants {
 	
 	public static final float BOX_TO_WORLD = 50f;
 	
-	public static final float STICK_SCALER = 1000f;
-	
 	public final class Files {
 		
 		public static final String ROOT = "data/";

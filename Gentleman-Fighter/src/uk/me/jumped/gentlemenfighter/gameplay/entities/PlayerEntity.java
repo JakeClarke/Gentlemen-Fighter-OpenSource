@@ -3,13 +3,17 @@ package uk.me.jumped.gentlemenfighter.gameplay.entities;
 import uk.me.jumped.gentlemenfighter.Constants;
 import uk.me.jumped.gentlemenfighter.graphics.AnimatedSprite;
 import uk.me.jumped.gentlemenfighter.graphics.Frame;
+import uk.me.jumped.gentlemenfighter.input.AbstractController;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.controllers.mappings.Ouya;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -17,13 +21,18 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public class PlayerEntity extends Entity {
 
-	private Controller controller;
+	private AbstractController controller;
 	private static final float HEIGHT = 100f, WIDTH = 100f, FACINGCHANGE_DEADZONE = 0.1f;
+	private static final float JUMP_FORCE = 10000f * Constants.WORLD_TO_BOX;
+	private static final float GROUNDED_STICK_SCALER = 1000f;
+	private static final float AIR_STICK_SCALER = 500f;
 	private AnimatedSprite walkingSprite = new AnimatedSprite();
 	private boolean facingForward = true;
 	public final String playerSpriteName;
+	
+	public boolean grounded = false;
 
-	public PlayerEntity(float x, float y, final String playerSpriteName, final Controller controller, EntityManager parentManager) {
+	public PlayerEntity(float x, float y, final String playerSpriteName, final AbstractController controller, EntityManager parentManager) {
 		super(genPlayerBodyDef(x,y), genFixtureDef(), parentManager);
 		this.playerSpriteName = playerSpriteName;
 		this.controller = controller;
@@ -43,19 +52,33 @@ public class PlayerEntity extends Entity {
 			f.Region = r;
 			this.walkingSprite.Frames.add(f);
 		}
+		
 	}
 
-	public void setController(Controller controller) {
+	public void setController(AbstractController controller) {
 		this.controller = controller;
 	}
 
 	@Override
 	public void update(float elapsedMS) {
-		Vector2 vel = new Vector2(this.controller.getAxis(Ouya.AXIS_LEFT_Y) * Constants.STICK_SCALER, 0).mul(Constants.WORLD_TO_BOX);
-		//Vector2 vel = new Vector2(1000f, 1000f).mul(Constants.WORLD_TO_BOX);
-		this.body.applyForceToCenter(vel);
 		
-		// TODO: Do something else if the player is in the air. 
+		if (this.grounded) {
+			Vector2 vel = new Vector2(this.controller.getHorizonatalMove()
+					* GROUNDED_STICK_SCALER, 0).mul(Constants.WORLD_TO_BOX);
+			this.body.applyForceToCenter(vel);
+			
+			if(this.controller.isJumpPressed())
+			{
+				this.body.applyForceToCenter(0f, JUMP_FORCE);
+				this.grounded = false;
+			}
+		}
+		else {
+			Vector2 vel = new Vector2(this.controller.getHorizonatalMove()
+					* AIR_STICK_SCALER, 0).mul(Constants.WORLD_TO_BOX);
+			this.body.applyForceToCenter(vel);
+		}
+		
 		Vector2 curVol = this.body.getLinearVelocity().mul(Constants.BOX_TO_WORLD);
 		
 		if(curVol.x > FACINGCHANGE_DEADZONE) {
