@@ -117,6 +117,7 @@ public class GameplayScreen extends Screen {
 			return;
 
 		if (Gdx.input.isKeyPressed(Keys.R)) {
+			this.music.stop();
 			this.getScreenManager().addScreen(new GameplayScreen());
 		}
 
@@ -146,25 +147,23 @@ public class GameplayScreen extends Screen {
 
 		this.entityManager = new EntityManager(this);
 
-		switch (Controllers.getControllers().size) {
-		case 4:
-		case 3:
-		case 2:
-			this.entityManager.addEntity(new PlayerEntity(100f, 700f,
-					Constants.PlayerClasses.SKINNY_DUDE, new GamepadController(
-							Controllers.getControllers().get(1)),
-					this.entityManager));
-		case 1:
-			this.entityManager.addEntity(new PlayerEntity(100f, 500f,
-					Constants.PlayerClasses.FAT_DUDE, new GamepadController(
-							Controllers.getControllers().get(0)),
-					this.entityManager));
-			break;
-		default:
+		if (Controllers.getControllers().size == 0) {
 			this.entityManager.addEntity(new PlayerEntity(100f, 500f,
 					Constants.PlayerClasses.FAT_DUDE, new KeyboardController(),
 					this.entityManager));
-			break;
+		} else {
+			if (Controllers.getControllers().size >= 2) {
+				this.entityManager.addEntity(new PlayerEntity(100f, 700f,
+						Constants.PlayerClasses.SKINNY_DUDE,
+						new GamepadController(Controllers.getControllers().get(
+								1)), this.entityManager));
+			}
+			if (Controllers.getControllers().size >= 1) {
+				this.entityManager.addEntity(new PlayerEntity(100f, 500f,
+						Constants.PlayerClasses.FAT_DUDE,
+						new GamepadController(Controllers.getControllers().get(
+								0)), this.entityManager));
+			}
 		}
 
 		Texture bgt = new Texture(
