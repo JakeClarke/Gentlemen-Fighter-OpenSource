@@ -32,6 +32,8 @@ public class GameplayScreen extends Screen {
 
 	private Music music;
 
+	private PlatformEntity[] boundaryPlatforms = new PlatformEntity[3];
+
 	private ContactListener contactListener = new ContactListener() {
 
 		@Override
@@ -48,9 +50,13 @@ public class GameplayScreen extends Screen {
 					((PlayerEntity) contact.getFixtureA().getBody()
 							.getUserData()).grounded = true;
 				}
-			}
 
-			if (contact.getFixtureA().getBody().getUserData() instanceof PlayerEntity
+				if (contact.getFixtureB().getBody().getUserData() == GameplayScreen.this.boundaryPlatforms[2]) {
+					// Causes a crash.
+					// ((PlayerEntity)
+					// contact.getFixtureA().getBody().getUserData()).hit();
+				}
+			} else if (contact.getFixtureA().getBody().getUserData() instanceof PlayerEntity
 					&& contact.getFixtureB().getBody().getUserData() instanceof PlayerEntity) {
 				PlayerEntity p1 = (PlayerEntity) contact.getFixtureA()
 						.getBody().getUserData();
@@ -62,7 +68,6 @@ public class GameplayScreen extends Screen {
 					p2.addPlayerInRange(p1);
 				}
 			}
-
 		}
 
 		@Override
@@ -181,6 +186,19 @@ public class GameplayScreen extends Screen {
 					this.entityManager);
 			this.entityManager.addEntity(platform);
 		}
+
+		this.boundaryPlatforms[0] = new PlatformEntity(-10, 0, 10,
+				Gdx.graphics.getHeight(), fa, this.entityManager);
+		this.entityManager.addEntity(this.boundaryPlatforms[0]);
+
+		this.boundaryPlatforms[1] = new PlatformEntity(
+				Gdx.graphics.getWidth() + 10, 0, 10,
+				Gdx.graphics.getHeight(), fa, this.entityManager);
+		this.entityManager.addEntity(this.boundaryPlatforms[1]);
+
+		this.boundaryPlatforms[2] = new PlatformEntity(0, -50,
+				Gdx.graphics.getWidth(), 5, fa, this.entityManager);
+		this.entityManager.addEntity(this.boundaryPlatforms[2]);
 
 		fa = new Frame[1];
 		fa[0] = new Frame();
