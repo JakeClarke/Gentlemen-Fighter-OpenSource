@@ -10,6 +10,7 @@ import uk.me.jumped.gentlemenfighter.input.KeyboardController;
 import uk.me.jumped.gentlemenfighter.screens.Screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,6 +50,19 @@ public class GameplayScreen extends Screen {
 				}
 			}
 
+			if (contact.getFixtureA().getBody().getUserData() instanceof PlayerEntity
+					&& contact.getFixtureB().getBody().getUserData() instanceof PlayerEntity) {
+				PlayerEntity p1 = (PlayerEntity) contact.getFixtureA()
+						.getBody().getUserData();
+				PlayerEntity p2 = (PlayerEntity) contact.getFixtureB()
+						.getBody().getUserData();
+				if (contact.getFixtureA() == p1.attackFixture
+						&& contact.getFixtureB() == p2.attackFixture) {
+					p1.addPlayerInRange(p2);
+					p2.addPlayerInRange(p1);
+				}
+			}
+
 		}
 
 		@Override
@@ -65,6 +79,19 @@ public class GameplayScreen extends Screen {
 				if (Math.abs(contact.getWorldManifold().getNormal().y) > 0.5f) {
 					((PlayerEntity) contact.getFixtureA().getBody()
 							.getUserData()).grounded = false;
+				}
+			}
+
+			if (contact.getFixtureA().getBody().getUserData() instanceof PlayerEntity
+					&& contact.getFixtureB().getBody().getUserData() instanceof PlayerEntity) {
+				PlayerEntity p1 = (PlayerEntity) contact.getFixtureA()
+						.getBody().getUserData();
+				PlayerEntity p2 = (PlayerEntity) contact.getFixtureB()
+						.getBody().getUserData();
+				if (contact.getFixtureA() == p1.attackFixture
+						&& contact.getFixtureB() == p2.attackFixture) {
+					p1.removePlayerInRange(p2);
+					p2.removePlayerInRange(p1);
 				}
 			}
 
@@ -88,6 +115,10 @@ public class GameplayScreen extends Screen {
 	public void update(boolean isTop, float elapsedGameTime) {
 		if (!isTop)
 			return;
+
+		if (Gdx.input.isKeyPressed(Keys.R)) {
+			this.getScreenManager().addScreen(new GameplayScreen());
+		}
 
 		this.world.step(elapsedGameTime * 0.001f, 6, 2);
 		Gdx.app.log("Physics", "Number of bodies: " + this.world.getBodyCount()

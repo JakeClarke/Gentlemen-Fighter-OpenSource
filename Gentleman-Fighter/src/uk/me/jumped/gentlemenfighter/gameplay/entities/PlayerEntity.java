@@ -1,21 +1,19 @@
 package uk.me.jumped.gentlemenfighter.gameplay.entities;
 
+import java.util.HashSet;
+
 import uk.me.jumped.gentlemenfighter.Constants;
 import uk.me.jumped.gentlemenfighter.graphics.AnimatedSprite;
 import uk.me.jumped.gentlemenfighter.graphics.Frame;
 import uk.me.jumped.gentlemenfighter.input.AbstractController;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerListener;
-import com.badlogic.gdx.controllers.PovDirection;
-import com.badlogic.gdx.controllers.mappings.Ouya;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
@@ -31,7 +29,11 @@ public class PlayerEntity extends Entity {
 	private boolean facingForward = true;
 	public final String playerSpriteName;
 
+	public final Fixture attackFixture;
+
 	public boolean grounded = false;
+
+	private HashSet<PlayerEntity> playersInRange = new HashSet<PlayerEntity>();
 
 	public PlayerEntity(float x, float y, final String playerSpriteName,
 			final AbstractController controller, EntityManager parentManager) {
@@ -57,6 +59,20 @@ public class PlayerEntity extends Entity {
 			f.Region = r;
 			this.walkingSprite.Frames.add(f);
 		}
+
+		FixtureDef fixDef = new FixtureDef();
+		PolygonShape shape = new PolygonShape();
+		// the box is slightly smaller to get the edges closer to the character
+		// sprite.
+		shape.setAsBox(((WIDTH - 40) / 2) * Constants.WORLD_TO_BOX,
+				((HEIGHT - 40) / 2) * Constants.WORLD_TO_BOX);
+		fixDef.shape = shape;
+		fixDef.density = 0f;
+		fixDef.friction = 0f;
+		fixDef.restitution = 0f;
+		fixDef.isSensor = true;
+
+		this.attackFixture = this.body.createFixture(fixDef);
 
 	}
 
@@ -108,6 +124,11 @@ public class PlayerEntity extends Entity {
 						+ ", world pos:" + this.getPosition() + ", Velocity: "
 						+ curVol);
 
+		if (this.controller.isAttackPressed()) {
+			for (PlayerEntity p : this.playersInRange) {
+				p.setActive(false);
+			}
+		}
 	}
 
 	@Override
@@ -141,5 +162,13 @@ public class PlayerEntity extends Entity {
 				+ (HEIGHT / 2)).mul(Constants.WORLD_TO_BOX));
 
 		return bodyDef;
+	}
+
+	public void addPlayerInRange(PlayerEntity p) {
+		this.playersInRange.add(p);
+	}
+
+	public void removePlayerInRange(PlayerEntity p) {
+		this.playersInRange.remove(p);
 	}
 }
