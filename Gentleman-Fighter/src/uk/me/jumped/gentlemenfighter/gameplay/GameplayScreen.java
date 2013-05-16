@@ -10,6 +10,7 @@ import uk.me.jumped.gentlemenfighter.input.KeyboardController;
 import uk.me.jumped.gentlemenfighter.screens.Screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,6 +28,8 @@ public class GameplayScreen extends Screen {
 	private World world;
 	private TextureRegion bgtr;
 	private EntityManager entityManager;
+	
+	private Music music;
 	
 	private ContactListener contactListener = new ContactListener() {
 
@@ -140,6 +143,11 @@ public class GameplayScreen extends Screen {
 		this.world.setContactListener(this.contactListener);
 		
 		
+		this.music = Gdx.audio.newMusic(Gdx.files.internal(Constants.Files.Audio.MUSIC + "hashjamz.mp3"));
+		
+		this.music.setLooping(true);
+		// TODO make it so that music starts only when the screen first comes in.
+		this.music.play();
 	}
 
 	@Override

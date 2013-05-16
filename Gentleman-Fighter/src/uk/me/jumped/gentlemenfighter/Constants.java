@@ -18,6 +18,12 @@ public final class Constants {
 			
 			public static final String PLAYER = Graphics.ROOT + "sprite sheets/characters/";
 		}
+		
+		public final class Audio {
+			public static final String ROOT = Files.ROOT + "audio/";
+			
+			public static final String MUSIC = Audio.ROOT + "music/";
+		}
 	}
 	
 	public final class PlayerClasses {
