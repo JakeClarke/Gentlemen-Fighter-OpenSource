@@ -126,7 +126,7 @@ public class PlayerEntity extends Entity {
 
 		if (this.controller.isAttackPressed()) {
 			for (PlayerEntity p : this.playersInRange) {
-				p.setActive(false);
+				p.hit();
 			}
 		}
 	}
@@ -170,5 +170,9 @@ public class PlayerEntity extends Entity {
 
 	public void removePlayerInRange(PlayerEntity p) {
 		this.playersInRange.remove(p);
+	}
+
+	public void hit() {
+		this.setActive(false);
 	}
 }
