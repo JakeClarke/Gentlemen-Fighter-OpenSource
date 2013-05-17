@@ -7,8 +7,10 @@ import uk.me.jumped.gentlemenfighter.gameplay.entities.PlayerEntity;
 import uk.me.jumped.gentlemenfighter.graphics.Frame;
 import uk.me.jumped.gentlemenfighter.input.GamepadController;
 import uk.me.jumped.gentlemenfighter.input.KeyboardController;
+import uk.me.jumped.gentlemenfighter.input.TouchController;
 import uk.me.jumped.gentlemenfighter.screens.Screen;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
@@ -126,8 +128,6 @@ public class GameplayScreen extends Screen {
 		}
 
 		this.world.step(elapsedGameTime * 0.001f, 6, 2);
-		Gdx.app.log("Physics", "Number of bodies: " + this.world.getBodyCount()
-				+ ", Step: " + elapsedGameTime * 0.001f + "(s)");
 
 		this.entityManager.updateEntities(elapsedGameTime);
 
@@ -152,9 +152,17 @@ public class GameplayScreen extends Screen {
 		this.entityManager = new EntityManager(this);
 
 		if (Controllers.getControllers().size == 0) {
-			this.entityManager.addEntity(new PlayerEntity(100f, 500f,
-					Constants.PlayerClasses.FAT_DUDE, new KeyboardController(),
-					this.entityManager));
+			if(Gdx.app.getType() == ApplicationType.Android) {
+				this.entityManager.addEntity(new PlayerEntity(100f, 500f,
+						Constants.PlayerClasses.FAT_DUDE, new TouchController(),
+						this.entityManager));
+			} else {
+				this.entityManager.addEntity(new PlayerEntity(100f, 500f,
+						Constants.PlayerClasses.FAT_DUDE, new KeyboardController(),
+						this.entityManager));
+			}
+			
+
 		} else {
 			if (Controllers.getControllers().size >= 2) {
 				this.entityManager.addEntity(new PlayerEntity(Gdx.graphics

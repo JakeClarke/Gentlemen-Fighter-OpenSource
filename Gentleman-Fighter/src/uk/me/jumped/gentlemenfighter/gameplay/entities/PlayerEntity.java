@@ -128,11 +128,6 @@ public class PlayerEntity extends Entity {
 
 		this.walkingSprite.update(Math.abs(elapsedMS * curVol.x) * 0.05f);
 
-		Gdx.app.log("Player",
-				this.playerSpriteName + ", Box pos: " + this.body.getPosition()
-						+ ", world pos:" + this.getPosition() + ", Velocity: "
-						+ curVol);
-
 		if (this.controller.isAttackPressed()) {
 			for (PlayerEntity p : this.playersInRange) {
 				p.hit();
