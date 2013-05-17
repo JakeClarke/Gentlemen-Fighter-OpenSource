@@ -25,13 +25,17 @@ public class PlayerEntity extends Entity {
 	private static final float JUMP_FORCE = 30000f * Constants.WORLD_TO_BOX;
 	private static final float GROUNDED_STICK_SCALER = 1000f;
 	private static final float AIR_STICK_SCALER = 300f;
+
 	private AnimatedSprite walkingSprite = new AnimatedSprite();
 	private boolean facingForward = true;
+	private boolean markForDeath = false;
+
 	public final String playerSpriteName;
 
 	public final Fixture attackFixture;
 
 	public boolean grounded = false;
+
 
 	private HashSet<PlayerEntity> playersInRange = new HashSet<PlayerEntity>();
 
@@ -82,6 +86,11 @@ public class PlayerEntity extends Entity {
 
 	@Override
 	public void update(float elapsedMS) {
+
+		if (this.markForDeath) {
+			this.setActive(false);
+			return;
+		}
 
 		if (this.grounded) {
 			Vector2 vel = new Vector2(this.controller.getHorizonatalMove()
@@ -173,6 +182,6 @@ public class PlayerEntity extends Entity {
 	}
 
 	public void hit() {
-		this.setActive(false);
+		this.markForDeath = true;
 	}
 }

@@ -52,9 +52,8 @@ public class GameplayScreen extends Screen {
 				}
 
 				if (contact.getFixtureB().getBody().getUserData() == GameplayScreen.this.boundaryPlatforms[2]) {
-					// Causes a crash.
-					// ((PlayerEntity)
-					// contact.getFixtureA().getBody().getUserData()).hit();
+					((PlayerEntity) contact.getFixtureA().getBody()
+							.getUserData()).hit();
 				}
 			} else if (contact.getFixtureA().getBody().getUserData() instanceof PlayerEntity
 					&& contact.getFixtureB().getBody().getUserData() instanceof PlayerEntity) {
@@ -158,7 +157,8 @@ public class GameplayScreen extends Screen {
 					this.entityManager));
 		} else {
 			if (Controllers.getControllers().size >= 2) {
-				this.entityManager.addEntity(new PlayerEntity(100f, 700f,
+				this.entityManager.addEntity(new PlayerEntity(Gdx.graphics
+						.getWidth() - 100f, 700f,
 						Constants.PlayerClasses.SKINNY_DUDE,
 						new GamepadController(Controllers.getControllers().get(
 								1)), this.entityManager));
@@ -184,6 +184,12 @@ public class GameplayScreen extends Screen {
 		for (int i = 0; i < 5; i++) {
 			platform = new PlatformEntity(0, 400 * i, 300, 30, fa,
 					this.entityManager);
+			this.entityManager.addEntity(platform);
+		}
+
+		for (int i = 0; i < 5; i++) {
+			platform = new PlatformEntity(Gdx.graphics.getWidth() - 300,
+					400 * i, 300, 30, fa, this.entityManager);
 			this.entityManager.addEntity(platform);
 		}
 
