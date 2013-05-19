@@ -152,16 +152,15 @@ public class GameplayScreen extends Screen {
 		this.entityManager = new EntityManager(this);
 
 		if (Controllers.getControllers().size == 0) {
-			if(Gdx.app.getType() == ApplicationType.Android) {
+			if (Gdx.app.getType() == ApplicationType.Android) {
 				this.entityManager.addEntity(new PlayerEntity(100f, 500f,
-						Constants.PlayerClasses.FAT_DUDE, new TouchController(),
-						this.entityManager));
+						Constants.PlayerClasses.FAT_DUDE,
+						new TouchController(), this.entityManager));
 			} else {
 				this.entityManager.addEntity(new PlayerEntity(100f, 500f,
-						Constants.PlayerClasses.FAT_DUDE, new KeyboardController(),
-						this.entityManager));
+						Constants.PlayerClasses.FAT_DUDE,
+						new KeyboardController(), this.entityManager));
 			}
-			
 
 		} else {
 			if (Controllers.getControllers().size >= 2) {
@@ -176,6 +175,12 @@ public class GameplayScreen extends Screen {
 						Constants.PlayerClasses.FAT_DUDE,
 						new GamepadController(Controllers.getControllers().get(
 								0)), this.entityManager));
+			}
+			if (Controllers.getControllers().size == 1) {
+				this.entityManager.addEntity(new PlayerEntity(Gdx.graphics
+						.getWidth() - 100f, 700f,
+						Constants.PlayerClasses.SKINNY_DUDE,
+						new KeyboardController(), this.entityManager));
 			}
 		}
 
@@ -195,19 +200,31 @@ public class GameplayScreen extends Screen {
 			this.entityManager.addEntity(platform);
 		}
 
+		final int rightx = Gdx.graphics.getWidth() - 300;
+
 		for (int i = 0; i < 5; i++) {
-			platform = new PlatformEntity(Gdx.graphics.getWidth() - 300,
-					400 * i, 300, 30, fa, this.entityManager);
+			platform = new PlatformEntity(rightx, 400 * i, 300, 30, fa,
+					this.entityManager);
 			this.entityManager.addEntity(platform);
 		}
+
+		final int inneroffset = 200;
+
+		platform = new PlatformEntity(rightx - inneroffset, 200, 300, 30, fa,
+				this.entityManager);
+		this.entityManager.addEntity(platform);
+
+		platform = new PlatformEntity(inneroffset, 200, 300, 30, fa,
+				this.entityManager);
+		this.entityManager.addEntity(platform);
 
 		this.boundaryPlatforms[0] = new PlatformEntity(-10, 0, 10,
 				Gdx.graphics.getHeight(), fa, this.entityManager);
 		this.entityManager.addEntity(this.boundaryPlatforms[0]);
 
 		this.boundaryPlatforms[1] = new PlatformEntity(
-				Gdx.graphics.getWidth() + 10, 0, 10,
-				Gdx.graphics.getHeight(), fa, this.entityManager);
+				Gdx.graphics.getWidth() + 10, 0, 10, Gdx.graphics.getHeight(),
+				fa, this.entityManager);
 		this.entityManager.addEntity(this.boundaryPlatforms[1]);
 
 		this.boundaryPlatforms[2] = new PlatformEntity(0, -50,

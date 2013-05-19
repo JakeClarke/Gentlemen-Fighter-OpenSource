@@ -22,7 +22,7 @@ public class PlayerEntity extends Entity {
 	private AbstractController controller;
 	private static final float HEIGHT = 100f, WIDTH = 100f,
 			FACINGCHANGE_DEADZONE = 0.1f;
-	private static final float JUMP_FORCE = 30000f * Constants.WORLD_TO_BOX;
+	private static final float JUMP_FORCE = 45000f * Constants.WORLD_TO_BOX;
 	private static final float GROUNDED_STICK_SCALER = 1000f;
 	private static final float AIR_STICK_SCALER = 300f;
 
@@ -35,7 +35,6 @@ public class PlayerEntity extends Entity {
 	public final Fixture attackFixture;
 
 	public boolean grounded = false;
-
 
 	private HashSet<PlayerEntity> playersInRange = new HashSet<PlayerEntity>();
 
