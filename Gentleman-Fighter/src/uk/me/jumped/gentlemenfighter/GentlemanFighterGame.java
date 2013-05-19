@@ -1,7 +1,6 @@
 package uk.me.jumped.gentlemenfighter;
 
-import uk.me.jumped.gentlemenfighter.gameplay.GameplayScreen;
-import uk.me.jumped.gentlemenfighter.screens.GDXLogoScreen;
+import uk.me.jumped.gentlemenfighter.screens.Screen;
 import uk.me.jumped.gentlemenfighter.screens.ScreenManager;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -14,12 +13,18 @@ public class GentlemanFighterGame implements ApplicationListener {
 
 	private ScreenManager screenManager = null;
 
+	public GentlemanFighterGame(Screen screen) {
+		this(new Screen[] { screen });
+	}
+
+	public GentlemanFighterGame(Screen[] screens) {
+		this.screenManager = new ScreenManager();
+		this.screenManager.addScreens(screens);
+	}
+
 	@Override
 	public void create() {
-		this.screenManager = new ScreenManager();
 
-		this.screenManager.addScreen(new GameplayScreen());
-		this.screenManager.addScreen(new GDXLogoScreen());
 	}
 
 	@Override

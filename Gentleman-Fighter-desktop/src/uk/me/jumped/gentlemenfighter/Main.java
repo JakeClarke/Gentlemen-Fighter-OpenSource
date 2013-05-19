@@ -1,6 +1,6 @@
 package uk.me.jumped.gentlemenfighter;
 
-import uk.me.jumped.gentlemenfighter.GentlemanFighterGame;
+import uk.me.jumped.gentlemenfighter.gameplay.GameplayScreen;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -12,7 +12,8 @@ public class Main {
 		cfg.useGL20 = false;
 		cfg.width = GentlemanFighterGame.TARGET_WIDTH;
 		cfg.height = GentlemanFighterGame.TARGET_HEIGHT;
-		
-		new LwjglApplication(new GentlemanFighterGame(), cfg);
+
+		new LwjglApplication(new GentlemanFighterGame(new GameplayScreen()),
+				cfg);
 	}
 }

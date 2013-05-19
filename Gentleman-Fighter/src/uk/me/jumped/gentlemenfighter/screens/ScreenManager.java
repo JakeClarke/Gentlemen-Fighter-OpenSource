@@ -9,8 +9,16 @@ public final class ScreenManager {
 
 	private ArrayList<Screen> screens = new ArrayList<Screen>();
 	long lastUpdateFrame = 0;
+	private boolean isInitialised = false;
 
 	public void update() {
+
+		if (!isInitialised) {
+			isInitialised = true;
+			for (Screen s : this.screens) {
+				s.loadContent();
+			}
+		}
 
 		if (this.screens.isEmpty()) {
 			Gdx.app.log("ScreenManager", "No screens, quiting!");
@@ -72,8 +80,15 @@ public final class ScreenManager {
 		}
 
 		screen.setScreenManager(this);
-		screen.loadContent();
+		if (this.isInitialised)
+			screen.loadContent();
 		this.screens.add(screen);
+	}
+
+	public void addScreens(Screen[] screens) {
+		for (Screen s : screens) {
+			this.addScreen(s);
+		}
 	}
 
 	private void addScreenNonloading(Screen screen) {
