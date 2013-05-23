@@ -1,13 +1,17 @@
 package uk.me.jumped.gentlemenfighter.gameplay;
 
+import java.util.Arrays;
+
 import uk.me.jumped.gentlemenfighter.Constants;
 import uk.me.jumped.gentlemenfighter.gameplay.entities.EntityManager;
 import uk.me.jumped.gentlemenfighter.gameplay.entities.PlatformEntity;
 import uk.me.jumped.gentlemenfighter.gameplay.entities.PlayerEntity;
+import uk.me.jumped.gentlemenfighter.graphics.AnimatedSprite;
 import uk.me.jumped.gentlemenfighter.graphics.Frame;
 import uk.me.jumped.gentlemenfighter.input.GamepadController;
 import uk.me.jumped.gentlemenfighter.input.KeyboardController;
 import uk.me.jumped.gentlemenfighter.input.TouchController;
+import uk.me.jumped.gentlemenfighter.levels.Level;
 import uk.me.jumped.gentlemenfighter.screens.Screen;
 
 import com.badlogic.gdx.Application.ApplicationType;
@@ -29,12 +33,19 @@ public class GameplayScreen extends Screen {
 
 	private SpriteBatch sb;
 	private World world;
-	private TextureRegion bgtr;
 	private EntityManager entityManager;
 
 	private Music music;
 
 	private PlatformEntity[] boundaryPlatforms = new PlatformEntity[3];
+
+	private AnimatedSprite backgroundSprite = new AnimatedSprite();
+
+	private Texture blank;
+
+	private String level;
+
+	private Level levelData;
 
 	private ContactListener contactListener = new ContactListener() {
 
@@ -117,6 +128,14 @@ public class GameplayScreen extends Screen {
 
 	};
 
+	public GameplayScreen() {
+		this(Constants.DEFAULT_LEVEL);
+	}
+
+	public GameplayScreen(String level) {
+		this.level = level;
+	}
+
 	@Override
 	public void update(boolean isTop, float elapsedGameTime) {
 		if (!isTop)
@@ -124,7 +143,7 @@ public class GameplayScreen extends Screen {
 
 		if (Gdx.input.isKeyPressed(Keys.R)) {
 			this.music.stop();
-			this.getScreenManager().addScreen(new GameplayScreen());
+			this.getScreenManager().addScreen(new GameplayScreen(this.level));
 		}
 
 		this.world.step(elapsedGameTime * 0.001f, 6, 2);
@@ -136,7 +155,7 @@ public class GameplayScreen extends Screen {
 	@Override
 	public void render() {
 		sb.begin();
-		sb.draw(bgtr, 0, 0);
+		this.backgroundSprite.render();
 
 		this.entityManager.renderEntities();
 
@@ -145,9 +164,14 @@ public class GameplayScreen extends Screen {
 
 	@Override
 	public void loadContent() {
+		Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+
 		this.world = new World(new Vector2(0, -10), true);
 
 		this.sb = new SpriteBatch();
+		this.backgroundSprite.Batch = this.sb;
+		this.backgroundSprite.Width = Gdx.graphics.getWidth();
+		this.backgroundSprite.Height = Gdx.graphics.getHeight();
 
 		this.entityManager = new EntityManager(this);
 
@@ -184,39 +208,14 @@ public class GameplayScreen extends Screen {
 			}
 		}
 
-		Texture bgt = new Texture(
-				Gdx.files.internal(Constants.Files.Graphics.BACKGROUNDS
-						+ "library.png"));
+		this.blank = new Texture(
+				Gdx.files.internal(Constants.Files.Graphics.ROOT + "blank.png"));
 
-		PlatformEntity platform = null;
+		// boundries
 		Frame[] fa = new Frame[1];
 		fa[0] = new Frame();
-		TextureRegion tr = new TextureRegion(bgt, 0, 730, 326, 30);
+		TextureRegion tr = new TextureRegion(this.blank, 0, 730, 326, 30);
 		fa[0].Region = tr;
-
-		for (int i = 0; i < 5; i++) {
-			platform = new PlatformEntity(0, 400 * i, 300, 30, fa,
-					this.entityManager);
-			this.entityManager.addEntity(platform);
-		}
-
-		final int rightx = Gdx.graphics.getWidth() - 300;
-
-		for (int i = 0; i < 5; i++) {
-			platform = new PlatformEntity(rightx, 400 * i, 300, 30, fa,
-					this.entityManager);
-			this.entityManager.addEntity(platform);
-		}
-
-		final int inneroffset = 200;
-
-		platform = new PlatformEntity(rightx - inneroffset, 200, 300, 30, fa,
-				this.entityManager);
-		this.entityManager.addEntity(platform);
-
-		platform = new PlatformEntity(inneroffset, 200, 300, 30, fa,
-				this.entityManager);
-		this.entityManager.addEntity(platform);
 
 		this.boundaryPlatforms[0] = new PlatformEntity(-10, 0, 10,
 				Gdx.graphics.getHeight(), fa, this.entityManager);
@@ -231,20 +230,23 @@ public class GameplayScreen extends Screen {
 				Gdx.graphics.getWidth(), 5, fa, this.entityManager);
 		this.entityManager.addEntity(this.boundaryPlatforms[2]);
 
-		fa = new Frame[1];
-		fa[0] = new Frame();
-		tr = new TextureRegion(bgt, 1280, 0, 264, 606);
-		fa[0].Region = tr;
-
-		platform = new PlatformEntity(490, 0, 264, 606, fa, this.entityManager);
-		this.entityManager.addEntity(platform);
-
-		bgtr = new TextureRegion(bgt, 1280, 720);
-
 		this.world.setContactListener(this.contactListener);
 
+		// level loading.
+		this.levelData = Level.load(Constants.Files.Levels.ROOT + level);
+		this.backgroundSprite.Frames.addAll(Arrays
+				.asList(this.levelData.background));
+
+		for (Level.PlatformInst inst : this.levelData.getPlatforms()) {
+			PlatformEntity platform = new PlatformEntity(inst.x, inst.y,
+					inst.def.width, inst.def.height, inst.def.frames,
+					this.entityManager);
+			this.entityManager.addEntity(platform);
+		}
+
+		// music
 		this.music = Gdx.audio.newMusic(Gdx.files
-				.internal(Constants.Files.Audio.MUSIC + "hashjamz.mp3"));
+				.internal(Constants.Files.Audio.MUSIC + this.levelData.music));
 
 		this.music.setLooping(true);
 		// TODO make it so that music starts only when the screen first comes

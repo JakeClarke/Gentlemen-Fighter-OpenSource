@@ -6,6 +6,8 @@ public final class Constants {
 
 	public static final float BOX_TO_WORLD = 50f;
 
+	public static final String DEFAULT_LEVEL = "library.lvl";
+
 	public final class Files {
 
 		public static final String ROOT = "data/";
@@ -24,6 +26,10 @@ public final class Constants {
 			public static final String ROOT = Files.ROOT + "audio/";
 
 			public static final String MUSIC = Audio.ROOT + "music/";
+		}
+
+		public final class Levels {
+			public static final String ROOT = Files.ROOT + "levels/";
 		}
 	}
 
