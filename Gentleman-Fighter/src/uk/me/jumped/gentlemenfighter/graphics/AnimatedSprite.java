@@ -26,20 +26,22 @@ public class AnimatedSprite {
 			Gdx.app.error("Animation", "Sprite has no frames to render");
 		}
 
-		this.currentTime += elapsedMS;
+		if (this.Frames.size() > 1) {
+			this.currentTime += elapsedMS;
+			Frame currentFrame = this.Frames.get(CurrentFrameNum);
+			while (this.currentTime > currentFrame.Length) {
+				this.currentTime -= currentFrame.Length;
+				this.CurrentFrameNum++;
 
-		Frame currentFrame = this.Frames.get(CurrentFrameNum);
+				if (this.CurrentFrameNum >= this.Frames.size()) {
+					this.CurrentFrameNum = 0;
 
-		while (this.currentTime > currentFrame.Length) {
-			this.currentTime -= currentFrame.Length;
-			this.CurrentFrameNum++;
+				}
 
-			if (this.CurrentFrameNum >= this.Frames.size()) {
-				this.CurrentFrameNum = 0;
-
+				currentFrame = this.Frames.get(CurrentFrameNum);
 			}
-
-			currentFrame = this.Frames.get(CurrentFrameNum);
+		} else {
+			this.CurrentFrameNum = 0;
 		}
 
 	}
