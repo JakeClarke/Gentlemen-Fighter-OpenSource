@@ -141,6 +141,8 @@ public class GameplayScreen extends Screen {
 		if (!isTop)
 			return;
 
+		this.backgroundSprite.update(elapsedGameTime);
+
 		if (Gdx.input.isKeyPressed(Keys.R)) {
 			this.music.stop();
 			this.getScreenManager().addScreen(new GameplayScreen(this.level));

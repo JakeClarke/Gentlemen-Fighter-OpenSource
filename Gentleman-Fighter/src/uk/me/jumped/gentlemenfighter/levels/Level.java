@@ -124,8 +124,8 @@ public class Level {
 
 			Texture t = new Texture(Gdx.files.internal(textureName));
 
-			float x = s.nextFloat(), y = s.nextFloat(), w = s.nextFloat(), h = s
-					.nextFloat();
+			int x = s.nextInt(), y = s.nextInt(), w = s.nextInt(), h = s
+					.nextInt();
 
 			Gdx.app.debug("Level loading", "Frame texture region: " + x + " "
 					+ y + " " + w + " " + h);
@@ -135,8 +135,6 @@ public class Level {
 			f.Region = tr;
 
 			f.Length = s.nextFloat();
-
-			f.Region = new TextureRegion();
 
 			frames[i] = f;
 		}
